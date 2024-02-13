@@ -5,7 +5,7 @@ function App() {
 
 
   return (
-    <div className="text-center text-black">
+    <div className="text-center text-white bg-black text-7xl">
       It's Private
     </div>
       );
