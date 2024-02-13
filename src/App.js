@@ -6,9 +6,9 @@ import img1 from './images/1.png';
 import img2 from './images/2.png';
 import img3 from './images/3.png';
 import img4 from './images/4.png';
-import music from './music/music.mp3'; // Import your music fil
-import { Howl } from 'howler'; // Import Howl and Howler
-import { BsVolumeMuteFill, BsVolumeUpFill } from 'react-icons/bs'; // Import volume icons
+import music from './music/music.mp3';
+import { Howl } from 'howler';
+import { BsVolumeMuteFill, BsVolumeUpFill } from 'react-icons/bs';
 
 function App() {
   const [heartClicked, setHeartClicked] = useState(false);
@@ -23,37 +23,31 @@ function App() {
   const [showModal, setShowModal] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
   const [showImage, setShowImage] = useState(false);
-  const [muted, setMuted] = useState(false); // State for mute/unmute
-  const [sound, setSound] = useState(null); // State for Howl instance
+  const [muted, setMuted] = useState(false);
+  const [sound, setSound] = useState(null);
 
-  // Initialize Howl with the music file
   useEffect(() => {
     const sound = new Howl({
       src: [music],
-      autoplay: true, // Autoplay the music when component mounts
-      loop: true, // Loop the music
-      volume: muted ? 0 : 1, // Set volume based on mute state
+      autoplay: true,
+      loop: true,
+      volume: muted ? 0 : 1,
     });
 
-    // Set Howl instance to state
     setSound(sound);
 
-    // Cleanup function to stop the music when component unmounts
     return () => {
       sound.stop();
     };
-  }, [muted]); // Run effect when mute state changes
+  }, [muted]);
 
-  // Function to toggle mute/unmute state
   const toggleMute = () => {
     setMuted(!muted);
     if (sound) {
-      // If sound instance exists, set volume based on new mute state
       sound.volume(muted ? 0 : 1);
     }
   };
 
-  // Initialize Firebase
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_API_KEY,
     authDomain: process.env.REACT_APP_AUTH_DOMAIN,
@@ -62,12 +56,10 @@ function App() {
     messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID,
     appId: process.env.REACT_APP_APP_ID,
     measurementId: process.env.REACT_APP_MEASUREMENT_ID
-  }; 
+  };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
 
-  // Initialize Firestore
   const db = getFirestore(app);
 
   const questions = [
@@ -81,7 +73,7 @@ function App() {
     "Happy Valentine's Day, babu!",
   ];
 
-  const images = [img1, img2, img3, img4]; // Array of image paths
+  const images = [img1, img2, img3, img4];
 
   useEffect(() => {
     setNoButtonStyle({
@@ -93,7 +85,7 @@ function App() {
   useEffect(() => {
     const interval = setInterval(() => {
       setGlow((prevGlow) => !prevGlow);
-    }, 500); // Change the interval as per your requirement
+    }, 500);
     return () => clearInterval(interval);
   }, []);
 
@@ -155,10 +147,19 @@ function App() {
     setShowModal(false);
   };
 
+  // Render black screen with "Not available" message on mobile devices
+  if (window.innerWidth < 768) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-purple-800 via-pink-600 to-red-500 text-white text-center">
+        <h1 className="text-4xl">Laptop mein kholo re</h1>
+      </div>
+    );
+  }
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-purple-800 via-pink-600 to-red-500 text-white relative"> {/* Added relative positioning */}
-      <button // Mute/Unmute button
-        className="text-white focus:outline-none absolute bottom-4 left-4" // Positioned at bottom-left corner
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-purple-800 via-pink-600 to-red-500 text-white relative">
+      <button
+        className="text-white focus:outline-none absolute bottom-4 left-4"
         onClick={toggleMute}
       >
         {muted ? <BsVolumeMuteFill size={24} /> : <BsVolumeUpFill size={24} />}
@@ -187,16 +188,16 @@ function App() {
           </div>
           <button
             className="bg-white border border-gray-300 text-gray-800 px-3 py-1.5 rounded absolute bottom-40 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-transform text-sm hover:bg-gray-300 hover:text-black shadow-lg"
-            onClick={() => openModal("hhhhhhhhhhhhhhhhhhhhhhh")}
+            onClick={() => openModal("Babuuuuuuu....I loveeee youuuu sooo muchhhhh.....Bohot miss krte h tumkooooooo koochoo poochooo lulluuuu pulluuuu....Hum bohot jaldi milengeee jor se hug krna h tumkoooo....aur doggoo bohot achcha h...thankyouuuu shonaaa....i lovee youuuu bohot saaraa....❤️❤️❤️❤️❤️❤️ ")} // Add your message here 
           >
             Read Message
           </button>
           {showModal && (
-            <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center" onClick={closeModal}>
-              <div className="bg-white p-8 rounded-lg text-black">
-                <p>{modalMessage}</p>
-              </div>
-            </div>
+             <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 flex justify-center items-center" onClick={closeModal}>
+             <div className="bg-white p-8 rounded-lg text-black max-w-md overflow-y-auto">
+                 <p>{modalMessage}</p>
+             </div>
+         </div>
           )}
         </>
       ) : (
