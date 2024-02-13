@@ -147,7 +147,6 @@ function App() {
     setShowModal(false);
   };
 
-  // Render black screen with "Not available" message on mobile devices
   if (window.innerWidth < 768) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-purple-800 via-pink-600 to-red-500 text-white text-center">
@@ -155,7 +154,6 @@ function App() {
       </div>
     );
   }
-
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-b from-purple-800 via-pink-600 to-red-500 text-white relative">
       <button
